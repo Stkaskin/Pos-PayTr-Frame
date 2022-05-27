@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Pay";
+    Layout = "~/Views/Pos/Layout.cshtml";
+}
+
+<h2>Pay</h2>
+<div class="page checkout-confirm-page">
+    <h1>ÖDEME SAYFASI</h1>
+
+    <iframe visible="false" src="@ViewBag.data" runat="server" id="paytriframe" frameborder="0" scrolling="no" style="width: 100%; "></iframe>
+    <script src="https://www.paytr.com/js/iframeResizer.min.js"></script>
+    <script>iFrameResize({}, '#paytriframe');</script>
+
+    <a href="@Url.Action("paytrpayaccept","Checkout")">tikla<</a>>
+
+</div>
+
+<script>iFrameResize({}, '#paytriframe');</script>
