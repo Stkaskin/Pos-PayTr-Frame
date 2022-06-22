@@ -55,34 +55,23 @@ namespace Pos_PayTr.Controllers
 
         public string GeneratorStart(Customer user, List<Cart> cart, string ordernumber)
         {
-
-
             // ####################### DÜZENLEMESİ ZORUNLU ALANLAR #######################
-            //
             // API Entegrasyon Bilgileri - Mağaza paneline giriş yaparak BİLGİ sayfasından alabilirsiniz.
             string merchant_id = "merchant_id";
             string merchant_key = "merchant_key";
             string merchant_salt = "merchant_salt";
-            //
             // Müşterinizin sitenizde kayıtlı veya form vasıtasıyla aldığınız eposta adresi
             string emailstr = user.mail;
-            //
             // Tahsil edilecek tutar. 9.99 için 9.99 * 100 = 999 gönderilmelidir.
-            int payment_amountstr = 111;//subtotal(cart);
-            //
+            int payment_amountstr = 111;//subtotal(cart);//toplamtutarr
             // Sipariş numarası: Her işlemde benzersiz olmalıdır!! Bu bilgi bildirim sayfanıza yapılacak bildirimde geri gönderilir.
             string merchant_oid = ordernumber;
-            //
             // Müşterinizin sitenizde kayıtlı veya form aracılığıyla aldığınız ad ve soyad bilgisi
             string user_namestr = user.name;
-            //
             // Müşterinizin sitenizde kayıtlı veya form aracılığıyla aldığınız adres bilgisi
             string user_addressstr = user.adress;
-
-            //
             // Müşterinizin sitenizde kayıtlı veya form aracılığıyla aldığınız telefon bilgisi
             string user_phonestr = user.phonenumber;
-            //
             // Başarılı ödeme sonrası müşterinizin yönlendirileceği sayfa
             // !!! Bu sayfa siparişi onaylayacağınız sayfa değildir! Yalnızca müşterinizi bilgilendireceğiniz sayfadır!
             // !!! Siparişi onaylayacağız sayfa "Bildirim URL" sayfasıdır (Bakınız: 2.ADIM Klasörü).
@@ -94,7 +83,7 @@ namespace Pos_PayTr.Controllers
             string merchant_fail_url = "http://xxx.net/checkout/failedcomplete";
             //        
             // !!! Eğer bu örnek kodu sunucuda değil local makinanızda çalıştırıyorsanız
-            // buraya dış ip adresinizi (https://www.http://localhost:51845.com/) yazmalısınız. Aksi halde geçersiz paytr_token hatası alırsınız.
+            // buraya dış ip adresinizi  (https://www.whatismyip.com/)  yazmalısınız. Aksi halde geçersiz paytr_token hatası alırsınız.
             string user_ip = "http://xxx.net/";
             //= Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
             if (user_ip == "" || user_ip == null)
@@ -111,31 +100,21 @@ namespace Pos_PayTr.Controllers
                 i++;
             }
 
-
-
             /* ############################################################################################ */
-
-
             // İşlem zaman aşımı süresi - dakika cinsinden
-            string timeout_limit = "30";
-            //
+            string timeout_limit = "30";           
             // Hata mesajlarının ekrana basılması için entegrasyon ve test sürecinde 1 olarak bırakın. Daha sonra 0 yapabilirsiniz.
-            string debug_on = "1";
-            //
+            string debug_on = "1";        
             // Mağaza canlı modda iken test işlem yapmak için 1 olarak gönderilebilir.
             string test_mode = "1";
-            //
             // Taksit yapılmasını istemiyorsanız, sadece tek çekim sunacaksanız 1 yapın
             string no_installment = "1";
-            //
             // Sayfada görüntülenecek taksit adedini sınırlamak istiyorsanız uygun şekilde değiştirin.
             // Sıfır (0) gönderilmesi durumunda yürürlükteki en fazla izin verilen taksit geçerli olur.
             string max_installment = "0";
-            //
             // Para birimi olarak TL, EUR, USD gönderilebilir. USD ve EUR kullanmak için kurumsal@paytr.com 
             // üzerinden bilgi almanız gerekmektedir. Boş gönderilirse TL geçerli olur.
             string currency = "TL";
-            //
             // Türkçe için tr veya İngilizce için en gönderilebilir. Boş gönderilirse tr geçerli olur.
             string lang = "";
 
@@ -194,9 +173,6 @@ namespace Pos_PayTr.Controllers
 
                 }
             }
-
-            // ViewBag["urltokken"] = str;
-            //  _httpContext.Session["urltokken"] = str;
             return str;
         }
 
@@ -206,8 +182,8 @@ namespace Pos_PayTr.Controllers
         {
             //get current cart and customer
             //geçerli muşteriyi ve geçerli kullanıcının sepetini getir
-            Customer customer = new Customer();
-            List<Cart> cart = new List<Cart>();
+            Customer customer =(Customer) Session["Musteri"];
+            List<Cart> cart = (List<Cart>)Session["Sepet"];
             //Frame için token gerekiyor bu kod ile bilgileri gönderip token üretiyoruz
             //bu tokkeni frame urlsi olarak göndereceğiz ve frame içinde sanal pos açılacak 
             ViewBag.data = GeneratorStart(customer, cart, orderid);
@@ -223,9 +199,6 @@ namespace Pos_PayTr.Controllers
             string merchant_key = "merchant_key";
             string merchant_salt = "merchant_salt";
             // ###########################################################################
-
-
-
             // ####### Bu kısımda herhangi bir değişiklik yapmanıza gerek yoktur. #######
             // 
             // POST değerleri ile hash oluştur.
