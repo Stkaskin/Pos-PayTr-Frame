@@ -105,7 +105,8 @@ Yapılan işlem  ViewBag.data içindeki tokenli linki iframe yazıp frame özell
   string user_phonestr = user.phonenumber;//müşterinin telefon bilgisi
         
         
-  public string GeneratorStart(Customer user, List<Cart> cart, string ordernumber)
+            
+      public string GeneratorStart(Customer user, List<Cart> cart, string ordernumber)
         {
             // ####################### DÜZENLEMESİ ZORUNLU ALANLAR #######################
         
